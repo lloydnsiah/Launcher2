@@ -1,6 +1,7 @@
 package com.example.launcher2;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,10 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.ViewHolder> {
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,"Working fine",Toast.LENGTH_LONG).show();
+                Intent launchapp = context.getPackageManager().getLaunchIntentForPackage(arrayList.get(position).getPackageName());
+                if (launchapp != null){
+                    context.startActivity(launchapp);
+                }
             }
         });
     }

@@ -5,14 +5,23 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
@@ -26,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imageView;
     private MyPreferences myPrefrences;
     private Boolean view;
+    private LinearLayout mainlayout;
 
 
     @Override
@@ -39,22 +49,45 @@ public class MainActivity extends AppCompatActivity {
         myPrefrences = MyPreferences.getInstance(context);
         arrayList= getInstalledAppList();
         view = myPrefrences.getGRID();
+        mainlayout = findViewById(R.id.layoutLinear);
 
         changeView(view);
 
-        imageView.setOnClickListener(new View.OnClickListener() {
+//        imageView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Boolean grid = myPrefrences.getGRID();
+//                if (grid){
+//                    myPrefrences.saveGRID(false);
+//                    changeView(grid);
+//                }else{
+//                    myPrefrences.saveGRID(true);
+//                    changeView(grid);
+//                }
+//            }
+//        });
+
+        imageView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View v) {
-                Boolean grid = myPrefrences.getGRID();
-                if (grid){
-                    myPrefrences.saveGRID(false);
-                    changeView(grid);
-                }else{
-                    myPrefrences.saveGRID(true);
-                    changeView(grid);
-                }
+            public boolean onLongClick(View v) {
+                Snackbar.make(v, "Change Screen Layout..... ", Snackbar.LENGTH_LONG)
+                        .setAction("Change", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Boolean grid = myPrefrences.getGRID();
+                                if (grid){
+                                    myPrefrences.saveGRID(false);
+                                    changeView(grid);
+                                }else{
+                                    myPrefrences.saveGRID(true);
+                                    changeView(grid);
+                                }
+                            }
+                        }).setTextColor(Color.YELLOW).show();
+                return true;
             }
         });
+
 
     }
 
@@ -93,5 +126,6 @@ public class MainActivity extends AppCompatActivity {
 
         return list;
     }
+
 
 }
