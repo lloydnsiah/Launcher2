@@ -34,8 +34,10 @@ public class MainActivity extends AppCompatActivity {
     private Context context;
     private ImageView imageView;
     private MyPreferences myPrefrences;
-    private Boolean view;
+    private Boolean view,hidden;
     private LinearLayout mainlayout;
+    private ArrayList<AppObject> hiddenapps;
+    private ImageView settings;
 
 
     @Override
@@ -49,23 +51,11 @@ public class MainActivity extends AppCompatActivity {
         myPrefrences = MyPreferences.getInstance(context);
         arrayList= getInstalledAppList();
         view = myPrefrences.getGRID();
+        hidden = myPrefrences.getHideApps();
         mainlayout = findViewById(R.id.layoutLinear);
+        settings = findViewById(R.id.appsettings);
 
-        changeView(view);
-
-//        imageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Boolean grid = myPrefrences.getGRID();
-//                if (grid){
-//                    myPrefrences.saveGRID(false);
-//                    changeView(grid);
-//                }else{
-//                    myPrefrences.saveGRID(true);
-//                    changeView(grid);
-//                }
-//            }
-//        });
+        changeView(view,arrayList);
 
         imageView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -77,10 +67,10 @@ public class MainActivity extends AppCompatActivity {
                                 Boolean grid = myPrefrences.getGRID();
                                 if (grid){
                                     myPrefrences.saveGRID(false);
-                                    changeView(grid);
+                                    changeView(grid,arrayList);
                                 }else{
                                     myPrefrences.saveGRID(true);
-                                    changeView(grid);
+                                    changeView(grid,arrayList);
                                 }
                             }
                         }).setTextColor(Color.YELLOW).show();
@@ -88,22 +78,30 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(context,AllApps.class));
+            }
+        });
+
 
     }
 
-    private void changeView(Boolean value){
+    private void changeView(Boolean value,ArrayList<AppObject> list){
         value = myPrefrences.getGRID();
+
         if (value){
             GridLayoutManager manager = new GridLayoutManager(context,2);
             recyclerView.setLayoutManager(manager);
-            adapter = new AppAdapter(context,arrayList);
+            adapter = new AppAdapter(context,list);
             adapter.notifyDataSetChanged();
             recyclerView.setAdapter(adapter);
 
         }else{
             LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
             recyclerView.setLayoutManager(layoutManager);
-            adaterlinear = new AppAdapterLinear(context,arrayList);
+            adaterlinear = new AppAdapterLinear(context,list);
             adaterlinear.notifyDataSetChanged();
             recyclerView.setAdapter(adaterlinear);
         }
@@ -111,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<AppObject> getInstalledAppList() {
         ArrayList<AppObject> list = new ArrayList<>();
+        hiddenapps = new ArrayList<>();
         Intent intent = new Intent(Intent.ACTION_MAIN,null);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         ArrayList<ResolveInfo> untreateAppList = (ArrayList<ResolveInfo>) getApplicationContext().getPackageManager().queryIntentActivities(intent,0);
@@ -120,8 +119,14 @@ public class MainActivity extends AppCompatActivity {
             Drawable appImage = info.activityInfo.loadIcon(getPackageManager());
             AppObject object = new AppObject(appPackagename,appname,appImage);
             if (!list.contains(object)){
+                if (!appname.equals("Launcher2")){
                 list.add(object);
+                }
             }
+            if (!hiddenapps.contains(object)){
+                hiddenapps.add(object);
+            }
+
         }
 
         return list;

@@ -32,6 +32,22 @@ public class MyPreferences {
         return false;
     }
 
+    //hide apps
+    public void saveHideApps(Boolean value) {
+        SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
+        prefsEditor .putBoolean("HideApps", value);
+        prefsEditor.commit();
+    }
+
+    public boolean getHideApps() {
+        if (sharedPreferences!= null) {
+            return sharedPreferences.getBoolean("HideApps", false);
+        }
+        return false;
+    }
+
+
+
 
 //    MyPreferences myPrefrences = MyPreferences.getInstance(context);
 //    myPreferences.saveData(YOUR_KEY,YOUR_VALUE);
