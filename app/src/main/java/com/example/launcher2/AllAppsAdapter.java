@@ -1,7 +1,6 @@
 package com.example.launcher2;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,7 @@ public class AllAppsAdapter extends RecyclerView.Adapter<AllAppsAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.apps_layout,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.new_layout,parent,false);
         return new ViewHolder(view);
     }
 

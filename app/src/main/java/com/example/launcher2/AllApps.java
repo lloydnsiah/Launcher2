@@ -35,13 +35,13 @@ public class AllApps extends AppCompatActivity {
 
         arrayList = getInstalledAppList();
 
-        GridLayoutManager manager = new GridLayoutManager(context,4);
+        GridLayoutManager manager = new GridLayoutManager(context,3);
         recyclerView.setLayoutManager(manager);
         adapter = new AllAppsAdapter(context,arrayList);
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
 
-        GridLayoutManager manager1 = new GridLayoutManager(context,4);
+        GridLayoutManager manager1 = new GridLayoutManager(context,3);
         hiddenRecyclerview.setLayoutManager(manager1);
         adapter1 = new AllAppsAdapter(context,hiddenAppList);
         adapter1.notifyDataSetChanged();
