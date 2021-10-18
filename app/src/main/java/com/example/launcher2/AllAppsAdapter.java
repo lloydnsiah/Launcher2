@@ -26,7 +26,7 @@ public class AllAppsAdapter extends RecyclerView.Adapter<AllAppsAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.new_layout_add,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.new_layout_minus,parent,false);
         return new ViewHolder(view);
     }
 
@@ -37,23 +37,23 @@ public class AllAppsAdapter extends RecyclerView.Adapter<AllAppsAdapter.ViewHold
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Testing......", Toast.LENGTH_SHORT).show();
+                holder.minus.setVisibility(View.INVISIBLE);
             }
         });
 
         holder.layout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                holder.add.setVisibility(View.VISIBLE);
+                holder.minus.setVisibility(View.VISIBLE);
                 return true;
             }
         });
 
-        holder.add.setOnClickListener(new View.OnClickListener() {
+        holder.minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(context, "Remove From Current group..", Toast.LENGTH_SHORT).show();
-                holder.add.setVisibility(View.INVISIBLE);
+                holder.minus.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -65,7 +65,7 @@ public class AllAppsAdapter extends RecyclerView.Adapter<AllAppsAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView image,add;
+        private ImageView image, minus;
         private TextView name;
         private LinearLayout layout;
 
@@ -74,7 +74,7 @@ public class AllAppsAdapter extends RecyclerView.Adapter<AllAppsAdapter.ViewHold
             image = itemView.findViewById(R.id.allAppsImage);
             name = itemView.findViewById(R.id.allAppsName);
             layout= itemView.findViewById(R.id.allAppslayout);
-            add = itemView.findViewById(R.id.img_add);
+            minus = itemView.findViewById(R.id.img_sub);
         }
     }
 }

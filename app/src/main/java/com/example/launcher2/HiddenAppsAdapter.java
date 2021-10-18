@@ -27,7 +27,7 @@ public class HiddenAppsAdapter extends RecyclerView.Adapter<HiddenAppsAdapter.Vi
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.new_layout_minus,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.new_layout_add,parent,false);
         return new ViewHolder(view);
     }
 
@@ -38,23 +38,23 @@ public class HiddenAppsAdapter extends RecyclerView.Adapter<HiddenAppsAdapter.Vi
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Testing......", Toast.LENGTH_SHORT).show();
+                holder.add.setVisibility(View.INVISIBLE);
             }
         });
 
         holder.layout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                holder.sub.setVisibility(View.VISIBLE);
+                holder.add.setVisibility(View.VISIBLE);
                 return true;
             }
         });
 
-        holder.sub.setOnClickListener(new View.OnClickListener() {
+        holder.add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(context, "Add App To Showing Apps", Toast.LENGTH_SHORT).show();
-                holder.sub.setVisibility(View.INVISIBLE);
+                holder.add.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -66,7 +66,7 @@ public class HiddenAppsAdapter extends RecyclerView.Adapter<HiddenAppsAdapter.Vi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView image,sub;
+        private ImageView image, add;
         private TextView name;
         private LinearLayout layout;
 
@@ -75,7 +75,7 @@ public class HiddenAppsAdapter extends RecyclerView.Adapter<HiddenAppsAdapter.Vi
             image = itemView.findViewById(R.id.allAppsImage);
             name = itemView.findViewById(R.id.allAppsName);
             layout= itemView.findViewById(R.id.allAppslayout);
-            sub =  itemView.findViewById(R.id.img_sub);
+            add =  itemView.findViewById(R.id.img_add);
 
         }
     }
