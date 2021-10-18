@@ -19,8 +19,9 @@ public class AllApps extends AppCompatActivity {
     private AllAppsAdapter adapter;
     private HiddenAppsAdapter adapter1;
     private AppAdapterLinear adaterlinear;
+    private ArrayList<String> hiddenList = new ArrayList<>();
     private Context context;
-    private ArrayList<String> arr = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +32,9 @@ public class AllApps extends AppCompatActivity {
         recyclerView = findViewById(R.id.allAppsRecyclerView);
         hiddenRecyclerview = findViewById(R.id.hiddenAppsRecyclerview);
 
-        arr.add("Launcher2");
-        arr.add("Play Store");
+        hiddenList.add("Launcher2");
+        hiddenList.add("Play Store");
+        hiddenList.add("Game Zone");
 
         arrayList = getInstalledAppList();
 
@@ -60,10 +62,21 @@ public class AllApps extends AppCompatActivity {
             String appPackagename = info.activityInfo.packageName;
             Drawable appImage = info.activityInfo.loadIcon(getPackageManager());
             AppObject object = new AppObject(appPackagename,appname,appImage);
+//            if (!list.contains(object)){
+//                if (!appname.equals("Launcher2")){
+//                    list.add(object);
+//
+//                }
+//                else{
+//                    hiddenAppList.add(object);
+//                }
+//            }
+
             if (!list.contains(object)){
-                if (!appname.equals("Launcher2")){
+                if (!hiddenList.contains(appname)){
                     list.add(object);
-                }else{
+                }
+                else{
                     hiddenAppList.add(object);
                 }
             }

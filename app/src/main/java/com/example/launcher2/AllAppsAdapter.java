@@ -52,7 +52,7 @@ public class AllAppsAdapter extends RecyclerView.Adapter<AllAppsAdapter.ViewHold
         holder.minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Remove From Current group..", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Remove.......", Toast.LENGTH_SHORT).show();
                 holder.minus.setVisibility(View.INVISIBLE);
             }
         });
