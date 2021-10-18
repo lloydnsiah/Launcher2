@@ -16,7 +16,8 @@ public class AllApps extends AppCompatActivity {
     private RecyclerView recyclerView,hiddenRecyclerview;
     private ArrayList<AppObject> arrayList = new ArrayList<>();
     private ArrayList<AppObject> hiddenAppList = new ArrayList<>();
-    private AllAppsAdapter adapter,adapter1;
+    private AllAppsAdapter adapter;
+    private HiddenAppsAdapter adapter1;
     private AppAdapterLinear adaterlinear;
     private Context context;
     private ArrayList<String> arr = new ArrayList<>();
@@ -43,13 +44,9 @@ public class AllApps extends AppCompatActivity {
 
         GridLayoutManager manager1 = new GridLayoutManager(context,3);
         hiddenRecyclerview.setLayoutManager(manager1);
-        adapter1 = new AllAppsAdapter(context,hiddenAppList);
+        adapter1 = new HiddenAppsAdapter(context,hiddenAppList);
         adapter1.notifyDataSetChanged();
         hiddenRecyclerview.setAdapter(adapter1);
-
-
-
-
 
     }
 

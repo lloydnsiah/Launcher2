@@ -41,6 +41,22 @@ public class AllAppsAdapter extends RecyclerView.Adapter<AllAppsAdapter.ViewHold
             }
         });
 
+        holder.layout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                holder.add.setVisibility(View.VISIBLE);
+                return true;
+            }
+        });
+
+        holder.add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "Remove From Current group..", Toast.LENGTH_SHORT).show();
+                holder.add.setVisibility(View.INVISIBLE);
+            }
+        });
+
     }
 
     @Override
@@ -49,7 +65,7 @@ public class AllAppsAdapter extends RecyclerView.Adapter<AllAppsAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView image;
+        private ImageView image,add;
         private TextView name;
         private LinearLayout layout;
 
@@ -58,6 +74,7 @@ public class AllAppsAdapter extends RecyclerView.Adapter<AllAppsAdapter.ViewHold
             image = itemView.findViewById(R.id.allAppsImage);
             name = itemView.findViewById(R.id.allAppsName);
             layout= itemView.findViewById(R.id.allAppslayout);
+            add = itemView.findViewById(R.id.img_add);
         }
     }
 }
