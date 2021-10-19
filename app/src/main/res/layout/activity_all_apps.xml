@@ -54,7 +54,7 @@
 
 
         <Button
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:text="Save Changes"
             android:id="@+id/btn_save"
@@ -63,11 +63,9 @@
             android:layout_marginBottom="10dp"
             android:textSize="18sp"
             android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
             android:textColor="#FFF"
             android:visibility="visible"/>
-
-
-
 
     </LinearLayout>
 
