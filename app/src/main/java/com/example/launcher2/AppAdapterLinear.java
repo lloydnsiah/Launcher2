@@ -22,6 +22,7 @@ public class AppAdapterLinear extends RecyclerView.Adapter<AppAdapterLinear.View
     public AppAdapterLinear(Context context, ArrayList<AppObject> arrayList) {
         this.context = context;
         this.arrayList = arrayList;
+        notifyDataSetChanged();
     }
 
     @NonNull

@@ -58,7 +58,8 @@ public class HiddenAppsAdapter extends RecyclerView.Adapter<HiddenAppsAdapter.Vi
                 List.remove(name);
                 PrefConfig.writelist(context,List);
                 removeAt(position);
-                Toast.makeText(context, "Added", Toast.LENGTH_SHORT).show();
+                notifyDataSetChanged();
+                notifyItemChanged(position);
                 holder.add.setVisibility(View.INVISIBLE);
             }
         });

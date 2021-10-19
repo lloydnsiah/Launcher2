@@ -22,6 +22,7 @@ public class AllAppsAdapter extends RecyclerView.Adapter<AllAppsAdapter.ViewHold
     public AllAppsAdapter(Context context, ArrayList<AppObject> arrayList) {
         this.context = context;
         this.arrayList = arrayList;
+        notifyDataSetChanged();
     }
     @NonNull
     @Override
@@ -56,9 +57,10 @@ public class AllAppsAdapter extends RecyclerView.Adapter<AllAppsAdapter.ViewHold
                 String name = arrayList.get(position).getName();
                 ArrayList<String> List = PrefConfig.readList(context);
                 List.add(name);
-                Toast.makeText(context, name, Toast.LENGTH_SHORT).show();
                 PrefConfig.writelist(context,List);
                 removeAt(position);
+                notifyDataSetChanged();
+                notifyItemChanged(position);
                 holder.minus.setVisibility(View.INVISIBLE);
             }
         });

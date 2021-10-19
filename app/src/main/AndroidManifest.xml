@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Launcher2">
-        <activity android:name=".AllApps"></activity>
+        <activity android:name=".testActivity.AllAppsTest"></activity>
+        <activity android:name=".AllApps" />
         <activity
             android:name=".MainActivity"
             android:launchMode="singleInstance"

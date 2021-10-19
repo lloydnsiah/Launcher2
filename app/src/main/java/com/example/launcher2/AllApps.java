@@ -54,37 +54,22 @@ public class AllApps extends AppCompatActivity {
                progressDialog = new ProgressDialog(AllApps.this);
                progressDialog.setMax(100);
                progressDialog.setMessage("Apps changes in progress....");
-               progressDialog.setTitle("Changing.");
+               progressDialog.setTitle("Changing app settings.");
                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                progressDialog.show();
 
                new Handler().postDelayed(new Runnable() {
                    @Override
                    public void run() {
-                       generalMethod();
-                       Toast.makeText(context, "Changes Saved", Toast.LENGTH_SHORT).show();
-                       progressDialog.dismiss();
-                       //layout.setBackgroundColor(1);
+                      Intent intent = new Intent(context,MainActivity.class);
+                      intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                      startActivity(intent);
+                      finish();
+                      progressDialog.dismiss();
                    }
-               },3000);
+               },1000);
             }
         });
-
-
-//        GridLayoutManager manager = new GridLayoutManager(context,3);
-//        recyclerView.setLayoutManager(manager);
-//        recyclerView.setHasFixedSize(true);
-//        adapter = new AllAppsAdapter(context,arrayList);
-//        adapter.notifyDataSetChanged();
-//        recyclerView.setAdapter(adapter);
-//
-//        GridLayoutManager manager1 = new GridLayoutManager(context,3);
-//        hiddenRecyclerview.setLayoutManager(manager1);
-//        hiddenRecyclerview.setHasFixedSize(true);
-//        adapter1 = new HiddenAppsAdapter(context,hiddenAppList);
-//        adapter1.notifyDataSetChanged();
-//        hiddenRecyclerview.setAdapter(adapter1);
-
 
 
     }
@@ -116,8 +101,8 @@ public class AllApps extends AppCompatActivity {
         return list;
     }
 
-    public  void generalMethod(){
-        arrayList = getInstalledAppList();
+    public void generalMethod(){
+        ArrayList<AppObject> arrayList = getInstalledAppList();
 
         GridLayoutManager manager = new GridLayoutManager(context,3);
         recyclerView.setLayoutManager(manager);
@@ -134,5 +119,10 @@ public class AllApps extends AppCompatActivity {
         hiddenRecyclerview.setAdapter(adapter1);
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(context,MainActivity.class);
+        startActivity(intent);
+    }
 }

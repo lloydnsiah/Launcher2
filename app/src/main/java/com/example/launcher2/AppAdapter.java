@@ -23,6 +23,7 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.ViewHolder> {
     public AppAdapter(Context context, ArrayList<AppObject> arrayList) {
         this.context = context;
         this.arrayList = arrayList;
+        notifyDataSetChanged();
     }
 
     @NonNull

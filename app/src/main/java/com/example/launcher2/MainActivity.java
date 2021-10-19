@@ -85,7 +85,10 @@ public class MainActivity extends AppCompatActivity {
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(context,AllApps.class));
+                Intent intent = new Intent(context,AllApps.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -136,12 +139,4 @@ public class MainActivity extends AppCompatActivity {
         return list;
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Toast.makeText(context, "Toasting.........", Toast.LENGTH_SHORT).show();
-        ArrayList<AppObject> arrayList = getInstalledAppList();
-        changeView(view,arrayList);
-        Toast.makeText(this, "Done.....", Toast.LENGTH_SHORT).show();
-    }
 }
