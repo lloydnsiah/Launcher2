@@ -38,6 +38,7 @@ public class AllAppsAdapter extends RecyclerView.Adapter<AllAppsAdapter.ViewHold
             @Override
             public void onClick(View v) {
                 holder.minus.setVisibility(View.INVISIBLE);
+               // Toast.makeText(context, String.valueOf(getItemId(position)), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -52,7 +53,12 @@ public class AllAppsAdapter extends RecyclerView.Adapter<AllAppsAdapter.ViewHold
         holder.minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Remove.......", Toast.LENGTH_SHORT).show();
+                String name = arrayList.get(position).getName();
+                ArrayList<String> List = PrefConfig.readList(context);
+                List.add(name);
+                Toast.makeText(context, name, Toast.LENGTH_SHORT).show();
+                PrefConfig.writelist(context,List);
+                removeAt(position);
                 holder.minus.setVisibility(View.INVISIBLE);
             }
         });
@@ -77,4 +83,11 @@ public class AllAppsAdapter extends RecyclerView.Adapter<AllAppsAdapter.ViewHold
             minus = itemView.findViewById(R.id.img_sub);
         }
     }
+
+    public void removeAt(int position){
+        arrayList.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position,arrayList.size());
+    }
+
 }

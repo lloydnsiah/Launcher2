@@ -53,7 +53,12 @@ public class HiddenAppsAdapter extends RecyclerView.Adapter<HiddenAppsAdapter.Vi
         holder.add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Add App To Showing Apps", Toast.LENGTH_SHORT).show();
+                String name = arrayList.get(position).getName();
+                ArrayList<String> List = PrefConfig.readList(context);
+                List.remove(name);
+                PrefConfig.writelist(context,List);
+                removeAt(position);
+                Toast.makeText(context, "Added", Toast.LENGTH_SHORT).show();
                 holder.add.setVisibility(View.INVISIBLE);
             }
         });
@@ -78,5 +83,11 @@ public class HiddenAppsAdapter extends RecyclerView.Adapter<HiddenAppsAdapter.Vi
             add =  itemView.findViewById(R.id.img_add);
 
         }
+    }
+
+    public void removeAt(int position){
+        arrayList.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position,arrayList.size());
     }
 }

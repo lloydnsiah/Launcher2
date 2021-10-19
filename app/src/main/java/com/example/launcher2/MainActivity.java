@@ -29,14 +29,16 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private ArrayList<AppObject> arrayList = new ArrayList<>();
+    private ArrayList<AppObject> hiddenArrayList = new ArrayList<>();
     private AppAdapter adapter;
     private AppAdapterLinear adaterlinear;
     private Context context;
     private ImageView imageView;
     private MyPreferences myPrefrences;
+    ArrayList<String> confList;
     private Boolean view,hidden;
     private LinearLayout mainlayout;
-    private ArrayList<AppObject> hiddenapps;
+    private ArrayList<String> hiddenList = new ArrayList<>();
     private ImageView settings;
 
 
@@ -49,11 +51,13 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerview);
         imageView = findViewById(R.id.home_image);
         myPrefrences = MyPreferences.getInstance(context);
-        arrayList= getInstalledAppList();
         view = myPrefrences.getGRID();
         hidden = myPrefrences.getHideApps();
         mainlayout = findViewById(R.id.layoutLinear);
         settings = findViewById(R.id.appsettings);
+
+        confList = PrefConfig.readList(context);
+        arrayList= getInstalledAppList();
 
         changeView(view,arrayList);
 
@@ -94,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
         if (value){
             GridLayoutManager manager = new GridLayoutManager(context,2);
             recyclerView.setLayoutManager(manager);
+            recyclerView.setHasFixedSize(true);
             adapter = new AppAdapter(context,list);
             adapter.notifyDataSetChanged();
             recyclerView.setAdapter(adapter);
@@ -101,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
         }else{
             LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
             recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setHasFixedSize(true);
             adaterlinear = new AppAdapterLinear(context,list);
             adaterlinear.notifyDataSetChanged();
             recyclerView.setAdapter(adaterlinear);
@@ -109,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<AppObject> getInstalledAppList() {
         ArrayList<AppObject> list = new ArrayList<>();
-        hiddenapps = new ArrayList<>();
         Intent intent = new Intent(Intent.ACTION_MAIN,null);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         ArrayList<ResolveInfo> untreateAppList = (ArrayList<ResolveInfo>) getApplicationContext().getPackageManager().queryIntentActivities(intent,0);
@@ -119,12 +124,11 @@ public class MainActivity extends AppCompatActivity {
             Drawable appImage = info.activityInfo.loadIcon(getPackageManager());
             AppObject object = new AppObject(appPackagename,appname,appImage);
             if (!list.contains(object)){
-                if (!appname.equals("Launcher2")){
-                list.add(object);
+                if (!confList.contains(appname)){
+                    list.add(object);
+                }else{
+                    hiddenArrayList.add(object);
                 }
-            }
-            if (!hiddenapps.contains(object)){
-                hiddenapps.add(object);
             }
 
         }
@@ -132,5 +136,12 @@ public class MainActivity extends AppCompatActivity {
         return list;
     }
 
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Toast.makeText(context, "Toasting.........", Toast.LENGTH_SHORT).show();
+        ArrayList<AppObject> arrayList = getInstalledAppList();
+        changeView(view,arrayList);
+        Toast.makeText(this, "Done.....", Toast.LENGTH_SHORT).show();
+    }
 }
