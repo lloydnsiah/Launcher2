@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -38,33 +40,36 @@ public class AllAppsAdapter extends RecyclerView.Adapter<AllAppsAdapter.ViewHold
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.minus.setVisibility(View.INVISIBLE);
-               // Toast.makeText(context, String.valueOf(getItemId(position)), Toast.LENGTH_SHORT).show();
+                holder.checkBox.setVisibility(View.INVISIBLE);
             }
         });
 
         holder.layout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                holder.minus.setVisibility(View.VISIBLE);
+                holder.checkBox.setVisibility(View.VISIBLE);
                 return true;
             }
         });
 
-        holder.minus.setOnClickListener(new View.OnClickListener() {
+        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 String name = arrayList.get(position).getName();
-                ArrayList<String> List = PrefConfig.readList(context);
-                List.add(name);
-                PrefConfig.writelist(context,List);
-                removeAt(position);
-                notifyDataSetChanged();
-                notifyItemChanged(position);
-                holder.minus.setVisibility(View.INVISIBLE);
+                if (isChecked){
+                    ArrayList<String> List = PrefConfig.readList(context);
+                    List.add(name);
+                    PrefConfig.writelist(context,List);
+                    holder.layout.setAlpha(0.5f);
+                }else {
+                    ArrayList<String> List = PrefConfig.readList(context);
+                    List.remove(name);
+                    PrefConfig.writelist(context,List);
+                    holder.layout.setAlpha(1f);
+                    holder.checkBox.setVisibility(View.INVISIBLE);
+                }
             }
         });
-
     }
 
     @Override
@@ -73,16 +78,17 @@ public class AllAppsAdapter extends RecyclerView.Adapter<AllAppsAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView image, minus;
+        private ImageView image;
         private TextView name;
         private LinearLayout layout;
+        private CheckBox checkBox;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.allAppsImage);
             name = itemView.findViewById(R.id.allAppsName);
             layout= itemView.findViewById(R.id.allAppslayout);
-            minus = itemView.findViewById(R.id.img_sub);
+            checkBox = itemView.findViewById(R.id.chechItemPLus);
         }
     }
 

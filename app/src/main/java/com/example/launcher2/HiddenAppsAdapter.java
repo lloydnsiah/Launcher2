@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -38,31 +40,43 @@ public class HiddenAppsAdapter extends RecyclerView.Adapter<HiddenAppsAdapter.Vi
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.add.setVisibility(View.INVISIBLE);
+                holder.checkBox.setVisibility(View.INVISIBLE);
             }
         });
 
         holder.layout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                holder.add.setVisibility(View.VISIBLE);
+                holder.checkBox.setVisibility(View.VISIBLE);
                 return true;
             }
         });
 
-        holder.add.setOnClickListener(new View.OnClickListener() {
+
+
+        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 String name = arrayList.get(position).getName();
-                ArrayList<String> List = PrefConfig.readList(context);
-                List.remove(name);
-                PrefConfig.writelist(context,List);
-                removeAt(position);
-                notifyDataSetChanged();
-                notifyItemChanged(position);
-                holder.add.setVisibility(View.INVISIBLE);
+                if (isChecked){
+                    ArrayList<String> List = PrefConfig.readList(context);
+                    List.remove(name);
+                    PrefConfig.writelist(context,List);
+                    holder.layout.setAlpha(0.5f);
+
+               }else{
+                    ArrayList<String> List = PrefConfig.readList(context);
+                    List.add(name);
+                    PrefConfig.writelist(context,List);
+                    holder.layout.setAlpha(1.0f);
+                    holder.checkBox.setVisibility(View.INVISIBLE);
+                }
+
             }
         });
+
+
+
 
     }
 
@@ -72,7 +86,8 @@ public class HiddenAppsAdapter extends RecyclerView.Adapter<HiddenAppsAdapter.Vi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView image, add;
+        private ImageView image;
+        private CheckBox checkBox;
         private TextView name;
         private LinearLayout layout;
 
@@ -81,14 +96,17 @@ public class HiddenAppsAdapter extends RecyclerView.Adapter<HiddenAppsAdapter.Vi
             image = itemView.findViewById(R.id.allAppsImage);
             name = itemView.findViewById(R.id.allAppsName);
             layout= itemView.findViewById(R.id.allAppslayout);
-            add =  itemView.findViewById(R.id.img_add);
-
+            checkBox = itemView.findViewById(R.id.chechItem);
         }
     }
 
     public void removeAt(int position){
-        arrayList.remove(position);
-        notifyItemRemoved(position);
-        notifyItemRangeChanged(position,arrayList.size());
+        String name = arrayList.get(position).getName();
+        ArrayList<String> List = PrefConfig.readList(context);
+        List.remove(name);
+        PrefConfig.writelist(context,List);
+        notifyDataSetChanged();
+        notifyItemChanged(position);
+
     }
 }
